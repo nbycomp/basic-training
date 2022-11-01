@@ -1,0 +1,13 @@
+image: 
+  name: nginx
+  tag: 1.14.2
+service:
+  commonString: servicePort
+  ports: 
+    - 80
+    - 90
+    - 100
+    - 110
+  nodePort:
+    enabled: false
+    port: 30888

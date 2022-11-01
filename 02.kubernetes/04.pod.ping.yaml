@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pingpod
+  namespace: <traineeid>
+spec:
+  containers:
+  - name: pinger
+    image: registry.nearbycomputing.com/public/training-sample:latest

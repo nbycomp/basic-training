@@ -1,0 +1,7 @@
+traineeId: trainee
+image: 
+  name: nginx
+  tag: 1.14.2
+service:
+  port: 80
+  nodePort: 30888
