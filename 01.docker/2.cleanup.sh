@@ -1,9 +1,8 @@
 #!/bin/bash
 
-
 if [[ -z "$TRAINEE" ]]; then
     echo "Must provide TRAINEE in environment" 1>&2
     exit 1
 fi
 
-docker build . -t $TRAINEE-sample
+docker rmi --force $TRAINEE-sample
