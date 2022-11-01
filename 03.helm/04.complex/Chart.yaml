@@ -1,0 +1,11 @@
+apiVersion: v2
+name: basic-training-helm-example
+description: "This Chart Deploys a simple set of resources"
+type: application
+version: 0.0.1
+appVersion: 1.0.0
+maintainers:
+  - name: NearbyComputing team
+    url: www.nearbycomputing.com
+icon: https://blocklogos.s3.eu-west-1.amazonaws.com/nearbycomputing.png
+deprecated: false
