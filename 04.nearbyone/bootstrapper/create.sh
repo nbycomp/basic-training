@@ -84,12 +84,12 @@ fi
 cacount=`yq e '.ConnectionAggregators | length' $RES`
 if [ $cacount -ne 0 ]; then
   catop=`expr $cacount - 1`
-  echo ".. Processing $cacount ConnectionSet objects"
+  echo ".. Processing $cacount ConnectionAggregator objects"
   for cai in `seq 0 $catop`; do
     echo "Processing item #$cai"
 
-    echo "`yq e '.ConnectionAggregators['$cdi'] | { "ConnectionAggregator": . } | .ConnectionAggregator.enabled = "true"'  $RES `" > tmpvalues.yaml
-    #cat tmpvalues.yaml
+    echo "`yq e '.ConnectionAggregators['$cai'] | { "ConnectionAggregator": . } | .ConnectionAggregator.enabled = "true"'  $RES `" > tmpvalues.yaml
+    cat tmpvalues.yaml
 
     helm template $SAMPLES -f tmpvalues.yaml > templates/connection_aggregator_$cai.yaml
 

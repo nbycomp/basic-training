@@ -7,3 +7,10 @@ ChartDeployments:
     connectionListSelectors:
       - selectorC
       - selectorD
+
+ConnectionAggregators:
+  - name:
+    onePerConnectionKey: a
+    connectionListSelectors:
+      - a
+    type: Log # Generic | Log
