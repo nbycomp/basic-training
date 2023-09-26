@@ -1,0 +1,24 @@
+ChartDeployments:
+  - name: a
+    connectionListSelectors:
+      - selectorA
+      - selectorB
+  - name: b
+    connectionListSelectors:
+      - selectorC
+      - selectorD
+
+ConnectionSets:
+  - name: a
+    targetListSelector: K8sCluster # K8sCluster | ChartRelease
+    onePerConnectionKey:
+    connectionListSelectors:
+      - a
+    type: Generic # Generic | Dashboard | Telemetry
+
+ConnectionAggregators:
+  - name: a
+    onePerConnectionKey: a
+    connectionListSelectors:
+      - a
+    type: Generic # Generic | Log
