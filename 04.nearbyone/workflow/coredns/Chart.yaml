@@ -1,0 +1,10 @@
+annotations:
+  displayName:  DNS
+  vendor: Nearby Computing
+apiVersion: v2
+description: NearybOne Training DNS service
+icon: https://blocklogos.s3.eu-west-1.amazonaws.com/nearbycomputing.png
+keywords:
+- DNS
+name: trainingDNS
+version: 0.1.0-training

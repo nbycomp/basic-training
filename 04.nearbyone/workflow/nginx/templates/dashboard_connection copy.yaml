@@ -1,0 +1,12 @@
+apiVersion: blocks/v1beta1
+kind: Connection
+metadata:
+  labels:
+    connection.nbycomp.com/category: Dashboard
+    connection.nbycomp.com/entity: {{ .Values.Block.InstanceId }}
+    connection.nbycomp.com/entity-type: block
+    connection.nbycomp.com/kind: URL
+  name: {{ .Values.name }}-{{ .Values.Block.InstanceId }}
+spec:
+  value: |
+    http://{{ .Values.chart.values.ingress.hostname }}/app/

@@ -1,0 +1,20 @@
+Block:
+  InstanceId: placeholder
+placement:
+  site:
+    label: placeholder
+deployments:
+  dns:
+    configuration:
+      chart:
+        auth:
+          enabled: false
+        baseRegistryUrl: registry.nearbycomputing.com
+        name: coredns
+        repo: chartrepo/public
+        version: 1.26.0
+    variables:
+      appname: dns
+      namespace: dns
+    records:
+      - 10.5.251.192 domain1

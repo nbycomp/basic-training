@@ -1,0 +1,27 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.Block.InstanceId }}
+spec:
+  template:
+    metadata:
+      labels:
+        application: {{ .Values.name }}
+    spec:
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/{{ .Values.placement.static.site.label }}: "true"
+      chart: {{ .Values.chart.name }}
+      version: {{ .Values.chart.version }}
+      repo:
+        url: https://{{ .Values.chart.baseRegistryUrl }}/{{ .Values.chart.repo }}
+{{- if .Values.chart.auth.enabled }}
+        username: {{ .Values.chart.auth.username | quote }}
+        password:
+          secretKeyRef:
+            name: {{ .Values.chart.auth.secret.name }}
+            key: {{ .Values.chart.auth.secret.key }}
+{{- end }}
+      values: |
+{{ toYaml .Values.chart.values | indent 8 }}

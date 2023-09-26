@@ -1,0 +1,72 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: {{ .Values.deployments.dns.variables.appname }}
+  namespace: {{ .Values.Block.InstanceId }}
+spec:
+  connectionListSelectors:
+    dnsRecords:
+      required: 0
+      matchLabels:
+        type: coredns
+  template:
+    metadata:
+      labels:
+        name: {{ .Values.deployments.dns.variables.appname }}
+        block:  {{ .Values.Block.InstanceId }}
+    spec:
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/{{ .Values.placement.site.label }}: "true"
+      namespaceOverride: {{ .Values.deployments.dns.variables.namespace }}
+      chart: {{ .Values.deployments.dns.configuration.chart.name }}
+      version: {{ .Values.deployments.dns.configuration.chart.version }}
+      repo:
+        url: https://{{ .Values.deployments.dns.configuration.chart.baseRegistryUrl }}/{{ .Values.deployments.dns.configuration.chart.repo }}
+{{- if .Values.deployments.dns.configuration.chart.auth.enabled }}
+        username: {{ .Values.deployments.dns.configuration.chart.auth.username | quote }}
+        password:
+          secretKeyRef:
+            name: {{ .Values.deployments.dns.configuration.chart.auth.secret.name }}
+            key: {{ .Values.deployments.dns.configuration.chart.auth.secret.key }}
+{{- end }}
+      values: |
+        image:
+          repository: registry.nearbycomputing.com/public/coredns
+          tag: 1.9.4-with-bash-and-ntp
+          pullPolicy: IfNotPresent
+        deployment:
+          enabled: true
+        servers:
+        - zones:
+          - zone: .
+          port: 53
+          use_tcp: true
+          plugins:
+          - name: errors
+          - name: log
+          - name: cache
+            parameters: 30
+          - name: reload
+          - name: loadbalance
+          - name: hosts
+            configBlock: |
+            {{- range $i, $record :=  .Values.deployments.dns.records  }}
+              {{ $record}}
+            {{- end }}
+            {{`{{- range  .Connections.dnsRecords  }}`}}
+            {{`{{- range $i, $record := .records }}`}}
+              {{`{{ $record }}`}}
+            {{`{{- end }}`}}
+            {{`{{- end }}`}}
+              fallthrough
+          - name: forward
+            parameters: . 8.8.8.8
+        livenessProbe:
+          enabled: false
+        readinessProbe:
+          enabled: false
+        isClusterService: false
+        podSecurityContext:
+          runAsUser: 0
+        serviceType: ClusterIP

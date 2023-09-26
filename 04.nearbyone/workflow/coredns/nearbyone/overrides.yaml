@@ -1,0 +1,9 @@
+placement:
+  site:
+    label: changeme
+deployments:
+  dns:
+    variables:
+      appname: dns
+    records:
+      - 10.5.251.192 domain1

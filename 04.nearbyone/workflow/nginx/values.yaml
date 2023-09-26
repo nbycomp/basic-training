@@ -1,0 +1,44 @@
+Block:
+  InstanceId: placeholder
+  OrgId: placeholder
+  UserId: placeholder
+
+placement:
+  dynamic:
+    enabled: false
+  static:
+    site:
+      label: changeme
+
+name: nginx-demo
+connection:
+  enabled: true
+chart:
+  baseRegistryUrl: charts.bitnami.com
+  name: nginx
+  repo: bitnami
+  version: 13.1.7
+  auth:
+    enabled: false
+  values:
+    image:
+      debug: true
+    ingress:
+      enabled: true
+      hostname: nginx.ip-tribe.link
+      path: /
+      #annotations: {"external-dns.alpha.kubernetes.io/ingress-hostname-source": "annotation-only"}
+    serverBlock: |-
+      server {
+        listen 0.0.0.0:8080;
+        server_name nginx.ip-tribe.link;
+        location / {
+          root /;
+          autoindex on;
+          autoindex_exact_size off;
+          autoindex_format html;
+          autoindex_localtime on;
+        }
+      }
+    service:
+      type: ClusterIP
