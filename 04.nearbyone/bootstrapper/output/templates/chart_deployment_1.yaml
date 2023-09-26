@@ -1,0 +1,34 @@
+---
+# Source: NearbyOneResourceGenerator/templates/ChartDeployment.yaml
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: b
+  namespace: "{{ .Values.Block.InstanceId }}"
+spec:
+  connectionListSelectors:
+    selectorC:
+      limit:  REPLACEME
+      required: REPLACEME
+      matchLabels:
+        sample: REPLACEME
+    selectorD:
+      limit:  REPLACEME
+      required: REPLACEME
+      matchLabels:
+        sample: REPLACEME
+  template:
+    metadata:
+      labels:
+        sample: REPLACEME
+    spec:
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/{{ .Values.placement.site.label }}: "true"
+      chart: "{{ .Values.apiserver.chart }}"
+      version: "{{ .Values.apiserver.version }}"
+      namespaceOverride: "{{ .Values.namespaceOverride }}"
+      repo:
+        url: "{{ .Values.apiserver.repo.url }}"
+      values: |
+        key: value
