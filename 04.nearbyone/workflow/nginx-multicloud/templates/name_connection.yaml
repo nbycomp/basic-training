@@ -1,0 +1,17 @@
+{{- if .Values.connection.enabled }}
+{{- if .Values.chart.values.ingress.enabled }}
+
+apiVersion: blocks/v1beta1
+kind: Connection
+metadata:
+  labels:
+    type: coredns
+    block: {{ .Values.Block.InstanceId }}
+  name: dns-{{ .Values.Block.InstanceId }}
+spec:
+  value: |
+    records:
+      - 1.2.3.4 {{`{{ .Connections.k8sClustersInSite.clusterName | trunc 16 | trimSuffix "-" -}}`}}.{{ .Values.hostbase }}
+
+{{- end }}
+{{- end }}

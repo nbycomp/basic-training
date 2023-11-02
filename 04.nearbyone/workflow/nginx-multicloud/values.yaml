@@ -1,0 +1,27 @@
+Block:
+  InstanceId: placeholder
+  OrgId: placeholder
+  UserId: placeholder
+
+placement:
+  dynamic:
+    enabled: false
+  static:
+    site:
+      label: changeme
+hostbase: edgedemo.nearbycomputing.com
+name: nginx-demo
+connection:
+  enabled: true
+chart:
+  baseRegistryUrl: charts.bitnami.com
+  name: nginx
+  repo: bitnami
+  version: 13.1.7
+  auth:
+    enabled: false
+  values:
+    image:
+      debug: true
+    service:
+      type: ClusterIP

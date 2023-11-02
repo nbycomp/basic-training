@@ -1,0 +1,18 @@
+apiVersion: blocks/v1beta1
+kind: ConnectionSet
+metadata:
+  name: k8sclusters-{{ .Values.Block.InstanceId }}
+spec:
+  targetListSelector:
+    kind: K8sCluster
+    matchLabels:
+      site.nbycomp.com/{{ .Values.placement.static.site.label }}: "true"
+  template:
+    metadata:
+      labels:
+        site.nbycomp.com/{{ .Values.placement.static.site.label }}: "true"
+        block:  {{ .Values.Block.InstanceId }}
+        kind: K8sCluster
+    spec:
+      value: |
+        clusterName: {{`{{ .Target.metadata.name }}`}}

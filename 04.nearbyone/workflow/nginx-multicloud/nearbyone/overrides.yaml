@@ -1,0 +1,11 @@
+placement:
+  static:
+    site:
+      label: changeme
+
+name: nginx-demo
+
+connection:
+  enabled: false
+
+hostbase: edgedemo.nearbycomputing.com

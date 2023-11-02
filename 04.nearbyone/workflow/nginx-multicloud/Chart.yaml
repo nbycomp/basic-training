@@ -1,0 +1,13 @@
+annotations:
+  displayName:  Nginx with workflow dependencies
+  vendor: Nearby Computing
+apiVersion: v2
+description: Nginx is a web server that can also be used as a reverse proxy, load
+  balancer, mail proxy and HTTP cache. Nginx is free and open-source software, released
+  under the terms of the 2-clause BSD license.
+icon: https://blocklogos.s3.eu-west-1.amazonaws.com/nginx.png
+keywords:
+- Demo
+- Web Server
+name: nginxTraining
+version: 0.0.1-multisite

@@ -1,0 +1,49 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.Block.InstanceId }}
+spec:
+  connectionListSelectors:
+    k8sClustersInSite:
+      matchLabels:
+        site.nbycomp.com/{{ .Values.placement.static.site.label }}: "true"
+        block: {{ .Values.Block.InstanceId }}
+        kind: K8sCluster
+  onePerConnectionKey: k8sClustersInSite
+  template:
+    metadata:
+      labels:
+        application: {{ .Values.name }}
+    spec:
+      k8sClusterName: "{{`{{ .Connections.k8sClustersInSite.clusterName }}`}}"
+      chart: {{ .Values.chart.name }}
+      version: {{ .Values.chart.version }}
+      repo:
+        url: https://{{ .Values.chart.baseRegistryUrl }}/{{ .Values.chart.repo }}
+{{- if .Values.chart.auth.enabled }}
+        username: {{ .Values.chart.auth.username | quote }}
+        password:
+          secretKeyRef:
+            name: {{ .Values.chart.auth.secret.name }}
+            key: {{ .Values.chart.auth.secret.key }}
+{{- end }}
+      values: |
+{{ toYaml .Values.chart.values | indent 8 }}
+        ingress:
+          enabled: true
+          hostname: "{{`{{ .Connections.k8sClustersInSite.clusterName | trunc 16 | trimSuffix "-" -}} `}}.{{ .Values.hostbase }}"
+          path: /
+          #annotations: {"external-dns.alpha.kubernetes.io/ingress-hostname-source": "annotation-only"}
+        serverBlock: |-
+          server {
+            listen 0.0.0.0:8080;
+            server_name {{`{{ .Connections.k8sClustersInSite.clusterName | trunc 16 | trimSuffix "-" -}} `}}.{{ .Values.hostbase }};
+            location / {
+              root /;
+              autoindex on;
+              autoindex_exact_size off;
+              autoindex_format html;
+              autoindex_localtime on;
+            }
+          }
