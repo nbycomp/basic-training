@@ -1,0 +1,38 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: {{ .Values.deployments.nginx.variables.appname }}-test
+{{- if .Values.deployments.nginx.variables.overrideNamespace }}
+  namespace: {{ .Values.deployments.nginx.variables.overrideNamespace }}
+{{- else }}
+  namespace: {{ .Values.Block.InstanceId }}
+{{- end }}
+spec:
+  template:
+    metadata:
+      labels:
+        application: {{ .Values.deployments.nginx.variables.appname }}
+        block: {{ .Values.Block.InstanceId }}
+        type: test
+    spec:
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/{{ .Values.placement.test.site.label }}: "true"
+      chart: {{ .Values.deployments.nginx.configuration.chart.name }}
+      version: {{ .Values.deployments.nginx.configuration.chart.version | quote }}
+{{- if  .Values.deployments.nginx.variables.rolloutStrategy.enabled }}
+      rolloutStrategy:
+        crontab:
+{{ toYaml .Values.deployments.nginx.variables.rolloutStrategy.crontab | indent 10 }}
+{{- end }}
+      repo:
+        url: https://{{ .Values.deployments.nginx.configuration.chart.baseRegistryUrl }}/{{ .Values.deployments.nginx.configuration.chart.repo }}
+{{- if .Values.deployments.nginx.configuration.chart.auth.enabled }}
+        username: {{ .Values.deployments.nginx.configuration.chart.auth.username | quote }}
+        password:
+          secretKeyRef:
+            name: {{ .Values.deployments.nginx.configuration.chart.auth.secret.name }}
+            key: {{ .Values.deployments.nginx.configuration.chart.auth.secret.key }}
+{{- end }}
+      values: |
+{{ toYaml .Values.deployments.nginx.variables.values | indent 8 }}

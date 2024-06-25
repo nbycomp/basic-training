@@ -1,0 +1,22 @@
+apiVersion: blocks/v1beta1
+kind: ConnectionSet
+metadata:
+  name: test-ready-{{ .Values.Block.InstanceId }}
+spec:
+  targetListSelector:
+    kind: ChartRelease
+    matchLabels:
+        application: {{ .Values.deployments.nginx.variables.appname }}
+        block: {{ .Values.Block.InstanceId }}
+        type: test
+  template:
+    metadata:
+      labels:
+        application: {{ .Values.deployments.nginx.variables.appname }}
+        block: {{ .Values.Block.InstanceId }}
+        kind: blueGrenValidation
+    spec:
+      value: |
+        latestValidatedVersion: {{`{{ .Target.status.installedChartVersion }}`}}
+
+        

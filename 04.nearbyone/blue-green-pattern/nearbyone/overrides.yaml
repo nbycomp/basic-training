@@ -1,0 +1,38 @@
+deployments:
+  nginx:
+    variables:
+      appname: nginx
+      imagePullSecret:
+        enabled: false
+        create: false
+        name: nginx-image-secret
+      rolloutStrategy:
+        enabled: true
+        crontab:
+          - schedule: "* * * * *"
+            timeZone: UTC             
+      values:
+        service:
+          type: ErrorPort
+          port: 80
+          httpsPort: 443
+          nodePorts:
+            http: "31088"
+            https: "31843"
+    configuration:
+      chart:
+        name: nginx
+        baseRegistryUrl: registry.nearbycomputing.com
+        repo: chartrepo/cicd
+        version: ~15
+        auth:
+          enabled: false
+        
+
+placement:
+  test:
+    site:
+      label: a969608c-be2a-43bd-a223-de092c6af813
+  production:
+    site:
+      label: f1d4c81d-47c4-42a9-9ee1-86a56ebd8a2d

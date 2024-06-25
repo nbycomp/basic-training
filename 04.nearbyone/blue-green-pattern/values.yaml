@@ -1,0 +1,55 @@
+Block:
+  InstanceId: 12345678-9012-3456-7890-123456789012
+
+deployments:
+  nginx:
+    variables:
+      appname: nginx
+      imagePullSecret:
+        enabled: false
+        create: false
+        name: nginx-image-secret
+      rolloutStrategy:
+        enbaled: true
+        crontab:
+          - schedule: "0 3 * * *"
+            timeZone: UTC        
+    configuration:
+      chart:
+        name: nginx
+        baseRegistryUrl: registry.nearbycomputing.com
+        repo: chartrepo/cicd
+        version: "15.0"
+        auth:
+          enabled: true
+          username: robot$pocs
+          password: juGCRixi3lw6fMMQtePiEgQZ4qweao0B
+          secret:
+            name: pullsecret-etcd
+            key: secretKey
+        
+
+  secretCreator:
+      variables:
+        appname: secret-manager
+      configuration:
+        chart:
+          version: 0.0.1
+          name: secret-creator
+          baseRegistryUrl: registry.nearbycomputing.com
+          repo: chartrepo/apps
+          auth:
+            enabled: false
+            username: robot$pocs
+            password: juGCRixi3lw6fMMQtePiEgQZ4qweao0B
+            secret:
+              name: pullsecret-secret-injector-chart
+              key: secretKey    
+
+placement:
+  test:
+    site:
+      label: placeholder
+  production:
+    site:
+      label: placeholder
