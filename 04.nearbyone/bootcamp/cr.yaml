@@ -15,5 +15,5 @@ spec:
       port: 80
       httpsPort: 443
       nodePorts:
-      http: "31080"
-      https: "31443"
+        http: "31080"
+        https: "31443"
