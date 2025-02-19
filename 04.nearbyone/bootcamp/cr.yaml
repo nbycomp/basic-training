@@ -1,0 +1,19 @@
+apiVersion: blocks/v1beta1
+kind: ChartRelease
+metadata:
+  name: nginx-deployment-6nchd
+  namespace: default
+spec:
+  chart: nginx
+  k8sClusterName: cd9cbe70-583f-43d1-a9b8-26647b270b89
+  repo:
+    url: https://charts.bitnami.com/bitnami
+  version: 18.1.4
+  values: |
+    service:
+      type: NodePort
+      port: 80
+      httpsPort: 443
+      nodePorts:
+      http: "31080"
+      https: "31443"
