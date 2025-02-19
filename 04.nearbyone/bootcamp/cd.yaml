@@ -1,0 +1,23 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+spec:
+  template:
+    spec:
+      chart: nginx
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/ee9c2f60-3a99-4ce4-896b-5f9aa17a65e7: "true"
+      repo:
+        url: https://charts.bitnami.com/bitnami
+      version: 18.1.4
+      values: |
+        service:
+          type: NodePort
+          port: 80
+          httpsPort: 443
+          nodePorts:
+            http: "31080"
+            https: "31443"
