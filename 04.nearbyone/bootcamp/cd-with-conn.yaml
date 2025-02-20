@@ -1,0 +1,48 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+spec:
+  connectionListSelectors:
+    clusters:
+      matchLabels:
+        haplacement: "true"
+  onePerConnectionKey: clusters
+  template:
+    spec:
+      chart: nginx
+      k8sClusterName: "{{ .Connections.clusters.clusterName }}"
+      repo:
+        url: https://charts.bitnami.com/bitnami
+      version: 18.1.4
+      values: |
+        service:
+          type: NodePort
+          port: 80
+          httpsPort: 443
+          nodePorts:
+            http: "31080"
+            https: "31443"
+---
+apiVersion: blocks/v1beta1
+kind: Connection
+metadata:
+  name: mycluster
+  namespace: default
+  labels:
+    haplacement: "true"
+spec:
+  value: |
+    clusterName: f7f8bf83-acb3-4162-9cb5-155205af18fd
+---
+apiVersion: blocks/v1beta1
+kind: Connection
+metadata:
+  name: mycluster2
+  namespace: default
+  labels:
+    haplacement: "true"
+spec:
+  value: |
+    clusterName: e8ce8519-45d6-4074-82bc-80339e9260ef
