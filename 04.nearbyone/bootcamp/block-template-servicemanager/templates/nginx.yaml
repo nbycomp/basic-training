@@ -2,7 +2,7 @@ apiVersion: blocks/v1beta1
 kind: ChartDeployment
 metadata:
   name: nginx-deployment
-  namespace: default
+  namespace: {{ .Values.Block.InstanceId }}
 spec:
 {{- if .Values.connection.enabled }}
   connectionListSelectors:

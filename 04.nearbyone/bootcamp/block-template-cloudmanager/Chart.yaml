@@ -2,7 +2,7 @@ annotations:
   displayName: Sample block structure
   vendor: Nearby Computing
   type: mec-block
-  nby.one/mec-site-label-selector: mecsite.nby.one/capability.loadbalacer=true,mecsite.nby.one/capability.kubernetes=true
+  nby.one/mec-site-label-selector: mecsite.nby.one/capability.loadbalancer=true,mecsite.nby.one/capability.kubernetes=true
 apiVersion: v2
 description: Sample block structure.
 icon: https://blocklogos.s3.eu-west-1.amazonaws.com/nearbycomputing.png
