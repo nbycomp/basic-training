@@ -1,0 +1,32 @@
+apiVersion: blocks/v1beta1
+kind: ChartDeployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+spec:
+{{- if .Values.connection.enabled }}
+  connectionListSelectors:
+    iptouse:
+      limit: 1
+      required: 1
+      matchLabels:
+        namespace: {{ .Values.Block.InstanceId }}
+        nby.one/type: nearbyone-ip-allocation-succeeded
+{{- end }}
+  template:
+    spec:
+      chart: nginx # TEMPLATEME
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/{{ .Values.placement.site.label }}: "true"
+      repo:
+        url: https://charts.bitnami.com/bitnami # TEMPLATEME
+      version: 18.1.4 # TEMPLATEME
+      values: |
+        service:
+{{- if .Values.connection.enabled }}
+          type: LoadBalancer
+          loadBalancerIP: "{{`{{ .Connections.iptouse.allocatedIP }}`}}"
+{{- else }}
+          type: ClusterIP
+{{- end }}

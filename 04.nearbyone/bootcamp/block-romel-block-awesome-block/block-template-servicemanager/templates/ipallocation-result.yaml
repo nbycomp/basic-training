@@ -1,0 +1,24 @@
+{{- if .Values.connection.enabled }}
+---
+apiVersion: blocks/v1beta1
+kind: ConnectionSet
+metadata:
+  name: ipallocation-{{ .Values.Block.InstanceId }}
+  namespace: {{ .Values.Block.InstanceId }}
+spec:
+  targetListSelector:
+    kind: K8sObject
+    matchLabels:
+      k8sobject: ipallocation-{{ .Values.Block.InstanceId }}
+      namespace: {{ $.Values.Block.InstanceId }}
+  template:
+    metadata:
+      labels:
+        k8sobject: ipallocation-{{ .Values.Block.InstanceId }}
+        namespace: {{ .Values.Block.InstanceId }}
+        nby.one/type: nearbyone-ip-allocation-succeeded
+    spec:
+      value: |
+        allocatedIP: {{`{{ .Target.status.object.status.allocatedIP }}`}}
+        prefixLen: {{`{{ .Target.status.object.status.prefixLen }}`}}
+{{- end }}

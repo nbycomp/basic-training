@@ -1,0 +1,11 @@
+annotations:
+  displayName: Romel's Awesome Block 
+  vendor: Nearby Computing
+  type: service-block
+apiVersion: v2
+description: Frontend developer block. Use at your own risk.
+icon: https://hcmex-prod.s3.eu-west-1.amazonaws.com/uploads/15579360/people/avatars/16638426/thumb/Romel.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3IM3S74A6HKMFP4R%2F20250220%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250220T120450Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=3eae4f3c001c42a333c7c2a300576e811be8b7a5218ff9d557dae7075469bc2e
+keywords:
+- Awesome Blocks
+name: block-template-block-awesome-block
+version: 0.0.1+awesome
