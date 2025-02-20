@@ -1,0 +1,25 @@
+---
+apiVersion: blocks/v1beta1
+kind: ConnectionSet
+metadata:
+  name: info-{{ $.Values.Block.InstanceId }}
+  namespace: default
+spec:
+  targetListSelector:
+    kind: K8sObject
+    matchLabels:
+      k8sobject: ipallocation-{{ .Values.Block.InstanceId }}
+      namespace: {{ $.Values.Block.InstanceId }}
+  template:
+    metadata:
+      labels:
+        connection.nbycomp.com/kind: info
+        connection.nbycomp.com/category: info
+        connection.nbycomp.com/entity-type: block
+        connection.nbycomp.com/entity: {{ $.Values.Block.InstanceId }}
+    spec:
+      value: |
+        "
+        allocatedIP: {{`{{ .Target.status.object.status.atProvider.privateIp }}`}}\n
+        otherinfo: here
+        "

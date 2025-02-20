@@ -1,0 +1,13 @@
+placement:
+  site:
+    label: changeme
+
+connection:
+  enabled: false
+
+name: nginx-demo
+chart:
+  baseRegistryUrl: charts.bitnami.com
+  name: nginx
+  repo: bitnami
+  version: 18.1.4

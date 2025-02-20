@@ -1,0 +1,28 @@
+{
+  "$defs": {
+    "versions": {
+      "enum": [
+        "18.1.4",
+        "18.1.5",
+        "18.1.6"
+      ]
+    }
+  },
+  "properties": {
+    "connection": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "chart": {
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/versions"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

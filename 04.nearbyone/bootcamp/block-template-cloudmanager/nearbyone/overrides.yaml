@@ -1,0 +1,4 @@
+connection:
+  enabled: false
+chart:
+  version: 18.1.4

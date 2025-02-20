@@ -1,0 +1,42 @@
+{{- if .Values.connection.enabled }}
+---
+apiVersion: blocks/v1beta1
+kind: K8sObjectConnector
+metadata:
+  name: ipallocation-{{ .Values.Block.InstanceId }}
+  namespace: {{ .Values.Block.InstanceId }}
+  labels:
+    name: ipallocation-{{ .Values.Block.InstanceId }}
+    namespace: {{ .Values.Block.InstanceId }}
+spec:
+  connectionListSelectors:
+    publicIpSubnet:
+      limit: 1
+      required: 1
+      matchLabels:
+        nby.one/type: nearbyone-ready-subnet-mec-site-mapping
+        nby.one/external: "true"
+        nby.one/mecsite: {{ .Values.Block.InstanceId }}
+  template:
+    metadata:
+      labels:
+        k8sobject: ipallocation-{{ .Values.Block.InstanceId }}
+        namespace: {{ .Values.Block.InstanceId }}
+    spec:
+      k8sClusterSelector:
+        matchLabels:
+          site.nbycomp.com/ipamcontroller: "true"
+      object: null
+      objectGoTemplate: |
+        apiVersion: ippool-operator.nby.one/v1beta1
+        kind: Allocation
+        metadata:
+          name: ipallocation-{{ $.Values.Block.InstanceId }}
+          namespace: default
+          labels:
+            nby.one/resource-name: ipallocation-{{ .Values.Block.InstanceId }}
+        spec:
+          subnetName: {{`{{ .Connections.publicIpSubnet.subnetName }}`}}
+  readinessPredicate:
+    cel: object.status.phase == 'Ready'
+{{- end }}

@@ -1,0 +1,17 @@
+Block:
+  InstanceId: placeholder
+  OrgId: placeholder
+  UserId: placeholder
+
+placement:
+  site:
+    label: changeme
+
+connection:
+  enabled: false
+
+chart:
+  baseRegistryUrl: charts.bitnami.com
+  name: nginx
+  repo: bitnami
+  version: 18.1.4
