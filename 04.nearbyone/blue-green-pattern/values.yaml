@@ -23,7 +23,7 @@ deployments:
         auth:
           enabled: true
           username: robot$pocs
-          password: juGCRixi3lw6fMMQtePiEgQZ4qweao0B
+          password: "placeholder"
           secret:
             name: pullsecret-etcd
             key: secretKey
@@ -41,7 +41,7 @@ deployments:
           auth:
             enabled: false
             username: robot$pocs
-            password: juGCRixi3lw6fMMQtePiEgQZ4qweao0B
+            password: "placeholder"
             secret:
               name: pullsecret-secret-injector-chart
               key: secretKey    
